@@ -1,0 +1,5 @@
+# If the player receives %maxWarnings% warnings, he will be kicked
+maxWarnings: 3
+
+# The message that the player will receive after kick
+kickMessage: "Excuse me, you got too many warnings and got kicked out"
