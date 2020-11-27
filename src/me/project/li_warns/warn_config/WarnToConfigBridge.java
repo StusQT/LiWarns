@@ -23,15 +23,15 @@ public class WarnToConfigBridge extends WarnConfig {
      *
      * @param target    the player who will be issued a warning
      * @param adminName the player name who was issued a warning
-     * @param reason    reason for the warning
+     * @param cause    cause for the warning
      * @return the number of warnings the player has so far
      **/
-    public int addWarn(@NotNull Player target, @NotNull String adminName, @NotNull String reason) {
+    public int addWarn(@NotNull Player target, @NotNull String adminName, @NotNull String cause) {
         UUID targetUUID = target.getUniqueId();
         LiWarnPlayer warnPlayer = super.getByUUID(targetUUID);
         if (warnPlayer == null) {
             List<PlayerWarning> warnings = new ArrayList<>();
-            warnings.add(new PlayerWarning(adminName, reason));
+            warnings.add(new PlayerWarning(adminName, cause));
             super.setByUUID(targetUUID, new LiWarnPlayer(targetUUID, warnings));
 
             return 1;
@@ -42,7 +42,7 @@ public class WarnToConfigBridge extends WarnConfig {
             return countOfWarnings;
 
         warnPlayer.setWarnCount(countOfWarnings);
-        warnPlayer.getWarnings().add(new PlayerWarning(adminName, reason));
+        warnPlayer.getWarnings().add(new PlayerWarning(adminName, cause));
         super.setByUUID(targetUUID, warnPlayer);
 
         return countOfWarnings;

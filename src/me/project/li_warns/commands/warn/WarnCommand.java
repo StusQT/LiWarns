@@ -1,6 +1,7 @@
 package me.project.li_warns.commands.warn;
 
 import me.project.li_warns.Main;
+import me.project.li_warns.warn_config.LogAction;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -28,7 +29,7 @@ public class WarnCommand implements CommandExecutor {
             return true;
         }
 
-        if(commandSender.equals(target)) {
+        if (commandSender.equals(target)) {
             commandSender.sendMessage("§cYou can't warn yourself");
             return true;
         }
@@ -37,9 +38,9 @@ public class WarnCommand implements CommandExecutor {
         for (int i = 1; i < args.length - 1; i++)
             sb.append(args[i]).append(" ");
         sb.append(args[args.length - 1]);
-        String reason = sb.toString();
+        String cause = sb.toString();
 
-        int warnCount = plugin.getWarningBridge().addWarn(target, commandSender.getName(), reason);
+        int warnCount = plugin.getWarningBridge().addWarn(target, commandSender.getName(), cause);
         if (warnCount > this.maxWarnings) {
             target.kickPlayer(plugin.getKickMessage());
             plugin.getWarningBridge().clearSection(target.getUniqueId());
@@ -47,6 +48,9 @@ public class WarnCommand implements CommandExecutor {
             target.sendMessage(ChatColor.GOLD + "You received a warning from " + commandSender.getName());
             commandSender.sendMessage(ChatColor.GREEN + "Success!");
         }
+        plugin.getWarnsLogger().log(LogAction.WARN,
+                "Administrator " + commandSender.getName() + " issued a warning to the player "
+                     + target.getName() + ". Cause: " + cause);
 
         return true;
     }

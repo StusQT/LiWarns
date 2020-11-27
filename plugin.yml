@@ -1,17 +1,18 @@
 name: LiWarns
 main: me.project.li_warns.Main
 version: 1.0
+min-api-version: 1.9
 
 commands:
   warn:
-    description: Issues a warning to the player
+    description: Issues a warning to the player for the specified cause
     usage: "§6Use /warn [player] [cause]"
     permission: li_warns.warn
     permission-message: §cExcuse me. You don't have enough permissions to do this
 
   unwarn:
-    description: Removes the last warning from player
-    usage: "§6Use /unwarn [player]"
+    description: Removes the last player's warning for the specified cause
+    usage: "§6Use /unwarn [player] [cause]"
     permission: li_warns.unwarn
     permission-message: §cExcuse me. You don't have enough permissions to do this
 

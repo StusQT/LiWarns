@@ -11,7 +11,7 @@ import org.jetbrains.annotations.TestOnly;
 
 /**
  * This is a FakeBook class without reflection
- * Target version: v1_16_R2
+ * Target version: v1_16_R2 (Minecraft 1.16.2)
  */
 public class FakeBookTest {
     @TestOnly

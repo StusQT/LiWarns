@@ -1,6 +1,7 @@
 package me.project.li_warns.commands.unwarn;
 
 import me.project.li_warns.Main;
+import me.project.li_warns.warn_config.LogAction;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -18,7 +19,7 @@ public class UnWarnCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (args.length < 1) return false;
+        if (args.length < 2) return false;
 
         Player target = Bukkit.getPlayer(args[0]);
         if (target == null) {
@@ -31,6 +32,12 @@ public class UnWarnCommand implements CommandExecutor {
             return true;
         }
 
+        StringBuilder sb = new StringBuilder();
+        for (int i = 1; i < args.length - 1; i++)
+            sb.append(args[i]).append(" ");
+        sb.append(args[args.length - 1]);
+        String cause = sb.toString();
+
         int warnCount = plugin.getWarningBridge().removeLastWarn(target);
 
         if (warnCount == -1) commandSender.sendMessage(ChatColor.GOLD + "Player " + args[0] + " has no warnings");
@@ -38,6 +45,10 @@ public class UnWarnCommand implements CommandExecutor {
             target.sendMessage(ChatColor.GREEN + commandSender.getName() + " removed the last warning from you");
             commandSender.sendMessage(ChatColor.GREEN + "Success!");
         }
+
+        plugin.getWarnsLogger().log(LogAction.UNWARN,
+                "Administrator " + commandSender.getName() + " removed last warning from player "
+                        + target.getName() + ". Cause: " + cause);
 
         return true;
     }
